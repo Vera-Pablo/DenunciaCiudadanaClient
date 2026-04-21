@@ -1,7 +1,9 @@
 import React from "react";
 import Button from "../components/ui/Button";
+import { useAuth } from "../context/AuthContext";
 
 const Dashboard: React.FC = () => {
+  const { logout } = useAuth();
   return (
     <div className="flex flex-col gap-10">
       <section className="max-w-2xl">
@@ -17,7 +19,9 @@ const Dashboard: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-surface-container-low p-8 rounded-[2rem] flex flex-col gap-6 shadow-sm border border-outline-variant/10">
           <div className="w-16 h-16 bg-primary-container/30 rounded-2xl flex items-center justify-center text-primary">
-            <span className="material-symbols-outlined text-3xl">add_circle</span>
+            <span className="material-symbols-outlined text-3xl">
+              add_circle
+            </span>
           </div>
           <div>
             <h3 className="text-2xl font-headline font-medium text-on-surface mb-2">
@@ -35,7 +39,9 @@ const Dashboard: React.FC = () => {
 
         <div className="bg-surface-container-low p-8 rounded-[2rem] flex flex-col gap-6 shadow-sm border border-outline-variant/10">
           <div className="w-16 h-16 bg-surface-container-highest rounded-2xl flex items-center justify-center text-on-surface-variant">
-            <span className="material-symbols-outlined text-3xl">folder_open</span>
+            <span className="material-symbols-outlined text-3xl">
+              folder_open
+            </span>
           </div>
           <div>
             <h3 className="text-2xl font-headline font-medium text-on-surface mb-2">
@@ -50,6 +56,25 @@ const Dashboard: React.FC = () => {
             Ver Historial
           </Button>
         </div>
+
+        <button
+          onClick={logout}
+          className="md:col-span-2 group bg-transparent p-6 rounded-[2rem] flex items-center justify-between border border-outline-variant/20 transition-colors duration-300 hover:bg-surface-container-low text-left w-full"
+        >
+          <div className="flex items-center gap-5">
+            <div className="w-12 h-12 bg-surface-container-highest text-on-surface-variant rounded-2xl flex items-center justify-center group-hover:bg-primary-container/20 group-hover:text-primary transition-colors duration-300">
+              <span className="material-symbols-outlined">logout</span>
+            </div>
+            <div>
+              <h3 className="text-lg font-headline font-medium text-on-surface">
+                Cerrar Sesión
+              </h3>
+              <p className="text-on-surface-variant text-xs mt-1">
+                Finalizar tu sesión de forma segura.
+              </p>
+            </div>
+          </div>
+        </button>
       </div>
     </div>
   );
