@@ -7,12 +7,27 @@ import { authService } from "../services/auth.service";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 
-const registerSchema = z.object({
-  name: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),
-  dni: z.string().min(7, "DNI inválido").max(10, "DNI demasiado largo"),
-  email: z.email("Por favor, ingrese un correo válido"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
-});
+const registerSchema = z
+  .object({
+    name: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),
+    dni: z
+      .string()
+      .min(7, "El DNI debe tener al menos 7 números")
+      .regex(/^\d+$/, "El DNI debe contener solo números"),
+    email: z.email("Por favor, ingrese un correo válido"),
+    telefono: z
+      .string()
+      .min(7, "El teléfono debe tener al menos 7 caracteres")
+      .max(15, "El teléfono es demasiado largo"),
+    password: z
+      .string()
+      .min(6, "La contraseña debe tener al menos 6 caracteres"),
+    confirmPassword: z.string().min(6, "La confirmación es requerida"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Las contraseñas no coinciden",
+    path: ["confirmPassword"],
+  });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
@@ -33,13 +48,38 @@ const Register: React.FC = () => {
     setError(null);
     setIsSubmitting(true);
     try {
-      await authService.register(data);
-      navigate("/login");
+      const { confirmPassword: _, dni, ...rest } = data;
+      const payload = {
+        ...rest,
+        dni: Number(dni),
+      };
+
+      await authService.register(payload);
+
+      navigate("/login", {
+        state: {
+          registered: true,
+          message:
+            "¡Cuenta creada con éxito! Ahora puedes iniciar sesión con tus credenciales.",
+        },
+      });
     } catch (err: any) {
-      setError(
-        err.response?.data?.message ||
-          "Error al crear la cuenta. Intente con otro correo o DNI.",
-      );
+      const message = err.response?.data?.message || "";
+      if (err.response?.status === 409 || message.includes("already exists")) {
+        if (message.toLowerCase().includes("email")) {
+          setError("Este correo electrónico ya está registrado.");
+        } else if (message.toLowerCase().includes("dni")) {
+          setError("Este DNI ya se encuentra en nuestra base de datos.");
+        } else {
+          setError(
+            "Los datos ingresados ya corresponden a una cuenta existente.",
+          );
+        }
+      } else {
+        setError(
+          "Error al crear la cuenta. Verifique que todos los campos sean correctos.",
+        );
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -64,13 +104,22 @@ const Register: React.FC = () => {
           error={errors.name?.message}
           {...register("name")}
         />
-        <Input
-          label="DNI"
-          placeholder="12345678"
-          id="dni"
-          error={errors.dni?.message}
-          {...register("dni")}
-        />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <Input
+            label="DNI"
+            placeholder="12345678"
+            id="dni"
+            error={errors.dni?.message}
+            {...register("dni")}
+          />
+          <Input
+            label="Teléfono"
+            placeholder="3794123456"
+            id="telefono"
+            error={errors.telefono?.message}
+            {...register("telefono")}
+          />
+        </div>
         <Input
           label="Correo electrónico"
           type="email"
@@ -86,6 +135,14 @@ const Register: React.FC = () => {
           id="password"
           error={errors.password?.message}
           {...register("password")}
+        />
+        <Input
+          label="Confirmar contraseña"
+          type="password"
+          placeholder="••••••••"
+          id="confirmPassword"
+          error={errors.confirmPassword?.message}
+          {...register("confirmPassword")}
         />
 
         {error && (
