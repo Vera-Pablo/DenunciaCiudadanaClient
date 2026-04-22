@@ -83,14 +83,6 @@ const Login: React.FC = () => {
             error={errors.password?.message}
             {...register("password")}
           />
-          <div className="flex justify-end mt-2 pr-2">
-            <Link
-              to="#"
-              className="text-sm font-label text-primary hover:text-primary-container transition-colors"
-            >
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </div>
         </div>
 
         {error && (

@@ -146,7 +146,7 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSuccess }) => {
       <div className="bg-surface-container-low p-8 rounded-[2.5rem] border border-outline-variant/10 shadow-sm space-y-6">
         <div className="space-y-2">
           <label className="text-sm font-medium text-on-surface px-4">
-            Evidencia Fotográfica
+            Evidencia Fotográfica (Opcional)
           </label>
           <div className="flex flex-col items-center justify-center border-2 border-dashed border-outline-variant rounded-[1.25rem] p-8 hover:bg-surface-container-high/50 transition-all group relative overflow-hidden">
             {preview ? (

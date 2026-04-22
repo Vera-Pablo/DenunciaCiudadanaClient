@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import { MdNotifications } from "react-icons/md";
 
 const MainLayout: React.FC = () => {
   return (
@@ -22,12 +21,6 @@ const MainLayout: React.FC = () => {
             </Link>
           </div>
 
-          <button
-            aria-label="notificaciones"
-            className="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors rounded-full p-3"
-          >
-            <MdNotifications size={24} />
-          </button>
         </div>
       </header>
 

@@ -18,9 +18,7 @@ export const createReportSchema = z.object({
   id_type: z.coerce
     .number({ message: "Selecciona un tipo de reporte" })
     .min(1, "Selecciona un tipo de reporte"),
-  image: z
-    .any()
-    .refine((files) => files?.length > 0, "Se requiere una imagen como evidencia"),
+  image: z.any().optional(),
 });
 
 export type CreateReportForm = z.infer<typeof createReportSchema>;
