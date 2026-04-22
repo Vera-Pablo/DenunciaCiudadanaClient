@@ -7,10 +7,12 @@ import type { CreateReportForm } from "../schemas/report.schema";
 export const useCreateReport = () => {
   return useMutation({
     mutationFn: async (formData: CreateReportForm) => {
-      // Step 1: Upload image to Cloudinary
-      const imageUrl = await uploadService.uploadImage(formData.image[0]);
+      let imageUrl: string | null = null;
 
-      // Step 2: Create report in backend
+      if (formData.image && formData.image.length > 0) {
+        imageUrl = await uploadService.uploadImage(formData.image[0]);
+      }
+
       const reportData: CreateReportData = {
         description: formData.description,
         street: formData.street,
@@ -19,7 +21,10 @@ export const useCreateReport = () => {
         img_url: imageUrl,
       };
 
-      const response = await api.post<JSendResponse<{ tracking_num: string }>>("/reports", reportData);
+      const response = await api.post<JSendResponse<{ tracking_num: string }>>(
+        "/reports",
+        reportData,
+      );
       return response.data.data;
     },
   });

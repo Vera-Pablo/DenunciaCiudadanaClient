@@ -5,6 +5,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "outline" | "ghost";
   fullWidth?: boolean;
   icon?: boolean;
+  loading?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -12,7 +13,9 @@ const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   fullWidth = false,
   icon = false,
+  loading = false,
   className = "",
+  disabled,
   ...props
 }) => {
   const baseStyles =
@@ -31,11 +34,18 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={`${baseStyles} ${variants[variant]} ${fullWidth ? "w-full" : ""} ${className}`}
+      disabled={disabled || loading}
       {...props}
     >
-      {children}
-      {icon && variant === "primary" && (
-        <MdArrowForward size={20} className="text-xl" />
+      {loading ? (
+        <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+      ) : (
+        <>
+          {children}
+          {icon && variant === "primary" && (
+            <MdArrowForward size={20} className="text-xl" />
+          )}
+        </>
       )}
     </button>
   );
