@@ -218,4 +218,4 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSuccess }) => {
   );
 };
 
-export default ReportForm;
+export { ReportForm };

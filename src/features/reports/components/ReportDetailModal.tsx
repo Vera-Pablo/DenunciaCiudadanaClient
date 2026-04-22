@@ -249,4 +249,4 @@ const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
   );
 };
 
-export default ReportDetailModal;
+export { ReportDetailModal };

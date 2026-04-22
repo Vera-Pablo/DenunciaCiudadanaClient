@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import ReportForm from "../features/reports/components/ReportForm";
+import { ReportForm } from "../features/reports";
 import Button from "../components/ui/Button";
 
 const CreateReport: React.FC = () => {

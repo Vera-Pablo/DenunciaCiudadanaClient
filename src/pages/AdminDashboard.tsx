@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { useAdminReports } from "../features/reports/hooks/useAdminReports";
-import { useReportTypes } from "../features/reports/hooks/useReportTypes";
-import { useStatuses } from "../features/reports/hooks/useStatuses";
-import AdminReportTable from "../features/reports/components/AdminReportTable";
-import ReportDetailModal from "../features/reports/components/ReportDetailModal";
+import {
+  useAdminReports,
+  useReportTypes,
+  useStatuses,
+  AdminReportTable,
+  ReportDetailModal,
+  type Report,
+} from "../features/reports";
 import Select from "../components/ui/Select";
-import type { Report } from "../features/reports/types";
 import { MdFilterList, MdDashboard } from "react-icons/md";
 
 const AdminDashboard: React.FC = () => {
