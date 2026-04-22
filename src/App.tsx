@@ -3,22 +3,38 @@ import MainLayout from "./components/layout/MainLayout";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   return (
-    <Routes>
-      <Route element={<MainLayout />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+    <AuthProvider>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route element={<PublicRoute />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Route>
 
-        <Route path="/" element={<Dashboard />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Dashboard />} />
 
-        <Route path="reports" element={<Navigate to="/" replace />} />
-        <Route path="profile" element={<Navigate to="/" replace />} />
-      </Route>
+            <Route element={<ProtectedRoute requiredRole="authority" />}>
+              <Route
+                path="/admin"
+                element={<div>Panel de Administración (Placeholder)</div>}
+              />
+            </Route>
 
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+            <Route path="reports" element={<Navigate to="/" replace />} />
+            <Route path="profile" element={<Navigate to="/" replace />} />
+          </Route>
+        </Route>
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AuthProvider>
   );
 }
 

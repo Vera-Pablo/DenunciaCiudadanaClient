@@ -1,9 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Link, useNavigate } from "react-router-dom";
+import { authService } from "../services/auth.service";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
-import { Link } from "react-router-dom";
+
+const registerSchema = z.object({
+  name: z.string().min(3, "El nombre debe tener al menos 3 caracteres"),
+  dni: z.string().min(7, "DNI inválido").max(10, "DNI demasiado largo"),
+  email: z.email("Por favor, ingrese un correo válido"),
+  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres"),
+});
+
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+  });
+
+  const onSubmit = async (data: RegisterFormValues) => {
+    setError(null);
+    setIsSubmitting(true);
+    try {
+      await authService.register(data);
+      navigate("/login");
+    } catch (err: any) {
+      setError(
+        err.response?.data?.message ||
+          "Error al crear la cuenta. Intente con otro correo o DNI.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="flex-grow flex flex-col justify-center w-full max-w-md mx-auto pt-8 pb-12">
       <div className="mb-14 text-center">
@@ -15,39 +56,47 @@ const Register: React.FC = () => {
         </p>
       </div>
 
-      <form className="flex flex-col gap-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
         <Input
           label="Nombre completo"
-          type="text"
           placeholder="Juan Pérez"
-          required
           id="name"
+          error={errors.name?.message}
+          {...register("name")}
         />
         <Input
           label="DNI"
-          type="number"
           placeholder="12345678"
-          required
           id="dni"
+          error={errors.dni?.message}
+          {...register("dni")}
         />
         <Input
           label="Correo electrónico"
           type="email"
           placeholder="nombre@ejemplo.com"
-          required
           id="email"
+          error={errors.email?.message}
+          {...register("email")}
         />
         <Input
           label="Contraseña"
           type="password"
           placeholder="••••••••"
-          required
           id="password"
+          error={errors.password?.message}
+          {...register("password")}
         />
 
+        {error && (
+          <div className="bg-error/10 border border-error/20 text-error text-sm p-4 rounded-2xl text-center">
+            {error}
+          </div>
+        )}
+
         <div className="mt-8 flex flex-col gap-5">
-          <Button type="submit" fullWidth icon>
-            Registrarse
+          <Button type="submit" fullWidth icon disabled={isSubmitting}>
+            {isSubmitting ? "Registrando..." : "Registrarse"}
           </Button>
           <Link
             to="/login"
