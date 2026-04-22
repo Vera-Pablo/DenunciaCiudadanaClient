@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
@@ -17,8 +17,11 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const successMessage = location.state?.message;
 
   const {
     register,
@@ -56,6 +59,12 @@ const Login: React.FC = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
+        {successMessage && (
+          <div className="bg-success/10 border border-success/20 text-success text-sm p-4 rounded-2xl text-center font-medium animate-in fade-in slide-in-from-top-2 duration-500">
+            {successMessage}
+          </div>
+        )}
+
         <Input
           label="Dirección de correo electrónico"
           type="email"

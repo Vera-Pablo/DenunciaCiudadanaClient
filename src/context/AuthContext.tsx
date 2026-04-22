@@ -11,14 +11,10 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-/**
- * AuthProvider: Manages global authentication state and persistence.
- */
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Initial Check: Load user from localStorage on mount
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     const savedToken = localStorage.getItem("token");
@@ -38,10 +34,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (data: any) => {
     const { user, token } = await authService.login(data);
     
-    // Save to State
     setUser(user);
     
-    // Persist to LocalStorage
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
   };
@@ -63,7 +57,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-// Hook to consume AuthContext conveniently
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
