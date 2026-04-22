@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
+import CreateReport from "./pages/CreateReport";
 
 function App() {
   return (
@@ -19,8 +20,9 @@ function App() {
 
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/reports/new" element={<CreateReport />} />
 
-            <Route element={<ProtectedRoute requiredRole="authority" />}>
+            <Route element={<ProtectedRoute requiredRole="Autoridad" />}>
               <Route
                 path="/admin"
                 element={<div>Panel de Administración (Placeholder)</div>}

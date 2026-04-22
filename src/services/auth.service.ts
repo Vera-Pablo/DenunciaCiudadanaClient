@@ -7,7 +7,7 @@ export interface User {
   id_role: number;
   role: {
     id_role: number;
-    type_role: "citizen" | "authority";
+    type_role: "Ciudadano" | "Autoridad";
   };
 }
 

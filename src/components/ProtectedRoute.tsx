@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 interface ProtectedRouteProps {
-  requiredRole?: "citizen" | "authority";
+  requiredRole?: "Ciudadano" | "Autoridad";
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ requiredRole }) => {

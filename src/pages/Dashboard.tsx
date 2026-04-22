@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Button from "../components/ui/Button";
 import { useAuth } from "../context/AuthContext";
 
@@ -32,9 +33,11 @@ const Dashboard: React.FC = () => {
               y evidencia fotográfica para su pronta atención.
             </p>
           </div>
-          <Button variant="primary" className="self-start" icon>
-            Comenzar
-          </Button>
+          <Link to="/reports/new" className="self-start">
+            <Button variant="primary" icon>
+              Comenzar
+            </Button>
+          </Link>
         </div>
 
         <div className="bg-surface-container-low p-8 rounded-[2rem] flex flex-col gap-6 shadow-sm border border-outline-variant/10">
