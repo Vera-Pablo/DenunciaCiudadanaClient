@@ -40,7 +40,10 @@ const Dashboard: React.FC = () => {
               </p>
             </div>
             <Link to="/admin" className="self-start">
-              <Button variant="primary" className="!bg-on-primary-container !text-primary-container">
+              <Button
+                variant="primary"
+                className="!bg-on-primary-container !text-primary-container"
+              >
                 Ver Reportes
               </Button>
             </Link>
@@ -69,6 +72,7 @@ const Dashboard: React.FC = () => {
               </Link>
             </div>
 
+            {/*
             <div className="bg-surface-container-low p-8 rounded-[2rem] flex flex-col gap-6 shadow-sm border border-outline-variant/10">
               <div className="w-16 h-16 bg-surface-container-highest rounded-2xl flex items-center justify-center text-on-surface-variant">
                 <span className="material-symbols-outlined text-3xl">
@@ -88,6 +92,7 @@ const Dashboard: React.FC = () => {
                 Ver Historial
               </Button>
             </div>
+            */}
           </>
         )}
 
