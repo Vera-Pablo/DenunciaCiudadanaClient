@@ -9,6 +9,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import CreateReport from "./pages/CreateReport";
 import AdminDashboard from "./pages/AdminDashboard";
+import MyReports from "./pages/MyReports";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/reports/new" element={<CreateReport />} />
+            <Route path="/reports/me" element={<MyReports />} />
 
             <Route element={<ProtectedRoute requiredRole="Autoridad" />}>
               <Route path="/admin" element={<AdminDashboard />} />
