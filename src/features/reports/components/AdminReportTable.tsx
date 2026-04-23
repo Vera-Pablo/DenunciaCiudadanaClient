@@ -1,7 +1,7 @@
 import React from "react";
 import type { Report } from "../types";
 import Badge from "../../../components/ui/Badge";
-import AdminReportCard from "./AdminReportCard";
+import { AdminReportCard } from "./AdminReportCard";
 import { getStatusVariant, getStatusLabel } from "../utils/statusHelpers";
 
 interface AdminReportTableProps {
@@ -92,4 +92,4 @@ const AdminReportTable: React.FC<AdminReportTableProps> = ({
   );
 };
 
-export default AdminReportTable;
+export { AdminReportTable };

@@ -74,4 +74,4 @@ const AdminReportCard: React.FC<AdminReportCardProps> = ({ report, onSelect }) =
   );
 };
 
-export default AdminReportCard;
+export { AdminReportCard };

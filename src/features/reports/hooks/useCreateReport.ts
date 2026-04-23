@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import api from "../../../api/axios";
-import { uploadService } from "../../../services/upload.service";
+import { uploadService } from "../api/upload.service";
 import type { CreateReportData, JSendResponse } from "../types";
 import type { CreateReportForm } from "../schemas/report.schema";
 

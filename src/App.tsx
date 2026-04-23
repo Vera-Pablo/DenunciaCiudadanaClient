@@ -4,7 +4,7 @@ import SimpleLayout from "./components/layout/SimpleLayout";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./features/auth";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import CreateReport from "./pages/CreateReport";

@@ -12,7 +12,7 @@ export interface Report {
   id_report: number;
   tracking_num: string;
   description: string;
-  img_url: string;
+  img_url: string | null;
   date: string;
   id_type: number;
   id_status: number;
@@ -31,7 +31,7 @@ export interface CreateReportData {
   description: string;
   street: string;
   street_number?: number;
-  img_url: string;
+  img_url: string | null;
   id_type: number;
 }
 

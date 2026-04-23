@@ -9,6 +9,6 @@ export const useReportTypes = () => {
       const response = await api.get<JSendResponse<ReportType[]>>("/types");
       return response.data.data;
     },
-    staleTime: 1000 * 60 * 60, // 1 hour (types change rarely)
+    staleTime: 1000 * 60 * 60,
   });
 };
