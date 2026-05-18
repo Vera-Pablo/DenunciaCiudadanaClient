@@ -17,4 +17,12 @@ export const authService = {
     );
     return response.data.data;
   },
+
+  forgotPassword: async (data: {email: string}): Promise<void> => {
+    await api.post<JSendResponse<void>>("/auth/forgot-password", data);
+  },
+
+  resetPassword: async (data: {token: string; newPassword: string}): Promise<void> => {
+    await api.post<JSendResponse<void>>("/auth/reset-password", data);
+  }
 };
