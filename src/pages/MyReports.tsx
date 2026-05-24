@@ -2,9 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useMyReports } from "../features/reports/hooks/useMyReports";
 import { ReportCard } from "../features/reports/components/ReportCard";
+import { CitizenReportDetailModal } from "../features/reports/components/CitizenReportDetailModal";
+import type { Report } from "../features/reports/types";
 
 const MyReports: React.FC = () => {
   const { data: reports, isLoading, isError } = useMyReports();
+  const [selectedReport, setSelectedReport] = React.useState<Report | null>(null);
 
   if (isLoading) {
     return (
@@ -76,9 +79,20 @@ const MyReports: React.FC = () => {
       ) : (
         <div className="space-y-6">
           {reports.map((report) => (
-            <ReportCard key={report.id_report} report={report} />
+            <ReportCard 
+              key={report.id_report} 
+              report={report} 
+              onClick={() => setSelectedReport(report)}
+            />
           ))}
         </div>
+      )}
+
+      {selectedReport && (
+        <CitizenReportDetailModal
+          report={selectedReport}
+          onClose={() => setSelectedReport(null)}
+        />
       )}
     </main>
   );
