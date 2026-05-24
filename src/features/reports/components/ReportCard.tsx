@@ -3,6 +3,7 @@ import type { Report } from "../types";
 
 interface ReportCardProps {
   report: Report;
+  onClick?: () => void;
 }
 
 const getStatusColor = (status: string) => {
@@ -30,11 +31,14 @@ const formatDate = (dateString: string) => {
   }).format(date);
 };
 
-export const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
+export const ReportCard: React.FC<ReportCardProps> = ({ report, onClick }) => {
   const statusColor = getStatusColor(report.status.type_status);
 
   return (
-    <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group">
+    <div 
+      onClick={onClick}
+      className="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden group cursor-pointer hover:shadow-md transition-shadow"
+    >
       <div className="flex justify-between items-start mb-3">
         <div>
           <span
@@ -58,7 +62,10 @@ export const ReportCard: React.FC<ReportCardProps> = ({ report }) => {
           </span>
           <span className="capitalize">{formatDate(report.date)}</span>
         </div>
-        <button className="text-slate-600 font-medium text-sm hover:text-slate-900 flex items-center gap-1">
+        <button 
+          onClick={onClick}
+          className="text-slate-600 font-medium text-sm hover:text-slate-900 flex items-center gap-1"
+        >
           Ver detalles{" "}
           <span className="material-symbols-outlined text-[16px]">
             arrow_forward

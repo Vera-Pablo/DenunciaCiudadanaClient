@@ -8,6 +8,18 @@ export interface Status {
   type_status: string;
 }
 
+export interface Comment {
+  id_comment: number;
+  text: string;
+  date: string;
+  user: {
+    name: string;
+    role: {
+      type_role: string;
+    };
+  };
+}
+
 export interface Report {
   id_report: number;
   tracking_num: string;
@@ -25,6 +37,7 @@ export interface Report {
     name: string;
     email: string;
   };
+  comments?: Comment[];
 }
 
 export interface CreateReportData {
