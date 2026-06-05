@@ -3,16 +3,25 @@ import { Link } from "react-router-dom";
 import { useMyReports } from "../features/reports/hooks/useMyReports";
 import { ReportCard } from "../features/reports/components/ReportCard";
 import { CitizenReportDetailModal } from "../features/reports/components/CitizenReportDetailModal";
+import { ChatModal } from "../features/reports/components/ChatModal";
+import { useAuth } from "../features/auth";
 import type { Report } from "../features/reports/types";
 
 const MyReports: React.FC = () => {
+  const { user } = useAuth();
   const { data: reports, isLoading, isError } = useMyReports();
   const [selectedReport, setSelectedReport] = React.useState<Report | null>(null);
+  const [chatReport, setChatReport] = React.useState<Report | null>(null);
+
+  const handleOpenChat = (report: Report) => {
+    setSelectedReport(null);
+    setChatReport(report);
+  };
 
   if (isLoading) {
     return (
       <main className="w-full px-6 pt-8 pb-24 max-w-5xl mx-auto flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
       </main>
     );
   }
@@ -37,10 +46,12 @@ const MyReports: React.FC = () => {
     <main className="w-full px-6 pt-8 pb-24 max-w-5xl mx-auto">
       <Link
         to="/"
-        className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors mb-6 font-medium"
+        className="inline-flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors mb-6 group"
       >
-        <span className="material-symbols-outlined">arrow_back</span>
-        Volver
+        <span className="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform tracking-tight">
+          arrow_back
+        </span>
+        <span className="font-headline font-medium">Volver</span>
       </Link>
       <div className="mb-10">
         <h2 className="text-[2.75rem] font-bold leading-tight text-slate-900 tracking-tight mb-2">
@@ -53,7 +64,7 @@ const MyReports: React.FC = () => {
 
       {!reports || reports.length === 0 ? (
         <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col items-center text-center">
-          <div className="w-20 h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center mb-5">
+          <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-5">
             <span
               className="material-symbols-outlined text-4xl"
               style={{ fontVariationSettings: "'FILL' 1" }}
@@ -70,7 +81,7 @@ const MyReports: React.FC = () => {
           </p>
           <Link
             to="/reports/new"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-6 rounded-full transition-colors inline-flex items-center gap-2"
+            className="bg-primary hover:bg-primary/90 text-on-primary font-medium py-2.5 px-6 rounded-full transition-colors inline-flex items-center gap-2"
           >
             <span className="material-symbols-outlined">add</span>
             Crear Nueva Denuncia
@@ -92,6 +103,15 @@ const MyReports: React.FC = () => {
         <CitizenReportDetailModal
           report={selectedReport}
           onClose={() => setSelectedReport(null)}
+          onOpenChat={() => handleOpenChat(selectedReport)}
+        />
+      )}
+
+      {chatReport && user && (
+        <ChatModal
+          report={chatReport}
+          currentUserId={user.id_user}
+          onClose={() => setChatReport(null)}
         />
       )}
     </main>

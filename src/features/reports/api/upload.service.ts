@@ -4,7 +4,12 @@ const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
 const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
 export const uploadService = {
-  uploadImage: async (file: File): Promise<string> => {
+  uploadImage: async (file: File): Promise<string | null> => {
+    if (!CLOUD_NAME || !UPLOAD_PRESET) {
+      console.warn("Cloudinary configuration missing. Skipping image upload.");
+      return null;
+    }
+
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", UPLOAD_PRESET);

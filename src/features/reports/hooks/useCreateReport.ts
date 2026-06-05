@@ -21,11 +21,16 @@ export const useCreateReport = () => {
         img_url: imageUrl,
       };
 
-      const response = await api.post<JSendResponse<{ tracking_num: string }>>(
-        "/reports",
-        reportData,
-      );
-      return response.data.data;
+      try {
+        const response = await api.post<JSendResponse<{ tracking_num: string }>>(
+          "/reports",
+          reportData,
+        );
+        return response.data.data;
+      } catch (error) {
+        console.error("Error creating report:", error);
+        throw error;
+      }
     },
   });
 };
