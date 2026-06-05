@@ -7,12 +7,16 @@ import {
   ReportDetailModal,
   type Report,
 } from "../features/reports";
+import { ChatModal } from "../features/reports/components/ChatModal";
+import { useAuth } from "../features/auth";
 import Select from "../components/ui/Select";
 import { MdFilterList, MdDashboard } from "react-icons/md";
 
 const AdminDashboard: React.FC = () => {
+  const { user } = useAuth();
   const [filters, setFilters] = useState({ id_status: 0, id_type: 0 });
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  const [chatReport, setChatReport] = useState<Report | null>(null);
 
   const { data: reports, isLoading } = useAdminReports(filters);
   const { data: types } = useReportTypes();
@@ -20,6 +24,11 @@ const AdminDashboard: React.FC = () => {
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: parseInt(value) }));
+  };
+
+  const handleOpenChat = (report: Report) => {
+    setSelectedReport(null);
+    setChatReport(report);
   };
 
   return (
@@ -102,6 +111,15 @@ const AdminDashboard: React.FC = () => {
         <ReportDetailModal
           report={selectedReport}
           onClose={() => setSelectedReport(null)}
+          onOpenChat={() => handleOpenChat(selectedReport)}
+        />
+      )}
+
+      {chatReport && user && (
+        <ChatModal
+          report={chatReport}
+          currentUserId={user.id_user}
+          onClose={() => setChatReport(null)}
         />
       )}
     </div>

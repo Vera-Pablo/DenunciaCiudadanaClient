@@ -1,7 +1,11 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
+import { useAuth } from "../../features/auth";
+import { FloatingChatButton } from "../../features/reports/components/FloatingChatButton";
 
 const MainLayout: React.FC = () => {
+  const { user } = useAuth();
+
   return (
     <div className="min-h-screen flex flex-col bg-surface antialiased font-body">
       <header className="bg-surface/80 backdrop-blur-xl sticky top-0 z-50">
@@ -27,6 +31,8 @@ const MainLayout: React.FC = () => {
       <main className="flex-grow flex flex-col w-full px-6 md:px-8 py-8 md:py-16 max-w-7xl mx-auto">
         <Outlet />
       </main>
+
+      {user && <FloatingChatButton />}
     </div>
   );
 };

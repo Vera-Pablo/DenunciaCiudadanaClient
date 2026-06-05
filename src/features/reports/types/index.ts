@@ -12,6 +12,7 @@ export interface Comment {
   id_comment: number;
   text: string;
   date: string;
+  id_user: number;
   user: {
     name: string;
     role: {

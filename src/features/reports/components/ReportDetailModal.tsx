@@ -13,8 +13,11 @@ import {
   MdLocationOn,
   MdPerson,
   MdCalendarToday,
+  MdChat,
 } from "react-icons/md";
 import { getStatusVariant, getStatusLabel } from "../utils/statusHelpers";
+
+
 
 const getSchema = (finalizadoId?: number) =>
   z
@@ -42,11 +45,13 @@ const getSchema = (finalizadoId?: number) =>
 interface ReportDetailModalProps {
   report: Report;
   onClose: () => void;
+  onOpenChat: () => void;
 }
 
 const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
   report,
   onClose,
+  onOpenChat,
 }) => {
   const { data: statuses } = useStatuses();
   const finalizadoStatus = statuses?.find(
@@ -161,7 +166,7 @@ const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
             </div>
           </div>
 
-          <div className="w-full md:w-1/2 p-5 md:p-8 flex flex-col bg-surface overflow-y-visible">
+          <div className="w-full md:w-1/2 p-5 md:p-8 flex flex-col bg-surface overflow-y-auto">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-lg md:text-xl font-headline font-semibold text-on-surface">
                 Gestión de Denuncia
@@ -195,11 +200,10 @@ const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
               />
 
               <div
-                className={`transition-all duration-500 transform ${
-                  isFinalizado
+                className={`transition-all duration-500 transform ${isFinalizado
                     ? "opacity-100 translate-y-0"
                     : "opacity-60 translate-y-1"
-                }`}
+                  }`}
               >
                 <div className="flex flex-col gap-2 w-full">
                   <label className="text-xs font-label text-on-surface-variant uppercase tracking-widest pl-2 font-medium">
@@ -242,6 +246,17 @@ const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
               Al marcar como "Resuelta", se enviará una notificación automática
               al ciudadano.
             </p>
+
+            <div className="pt-6 mt-4 border-t border-outline-variant/10">
+              <button
+                type="button"
+                onClick={onOpenChat}
+                className="w-full flex items-center justify-center gap-2 py-3 px-6 bg-primary hover:bg-primary/90 text-on-primary font-semibold rounded-2xl transition-colors shadow-md hover:shadow-lg active:scale-[0.98]"
+              >
+                <MdChat size={20} />
+                Ir al Chat
+              </button>
+            </div>
           </div>
         </div>
       </div>
