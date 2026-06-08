@@ -10,35 +10,48 @@ interface ReportChatProps {
 }
 
 export const ReportChat: React.FC<ReportChatProps> = ({
-    comments,
+    comments: serverComments,
     reportId,
     currentUserId,
 }) => {
     const [text, setText] = useState("");
+    const [pending, setPending] = useState<Comment[]>([]);
     const mutation = useAddComment(reportId);
     const bottomRef = useRef<HTMLDivElement>(null);
 
-    // Auto-scroll
+    const allComments = [...pending, ...serverComments];
+
+    useEffect(() => {
+        if (pending.length > 0) {
+            setPending([]);
+        }
+    }, [serverComments]);
+
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [comments.length]);
+    }, [allComments.length]);
 
     const handleSend = () => {
         const trimmed = text.trim();
         if (!trimmed) return;
-        
-        // Limpiamos el input instantáneamente para mejor UX
+
+        const optimistic: Comment = {
+            id_comment: -Date.now(),
+            text: trimmed,
+            date: new Date().toISOString(),
+            id_user: currentUserId,
+            user: {
+                name: "",
+                role: { type_role: currentUserId ? "Autoridad" : "Ciudadano" },
+            },
+        };
+
+        setPending((prev) => [...prev, optimistic]);
         setText("");
-        
-        mutation.mutate(trimmed, {
-            onError: () => {
-                // Si falla, restauramos el texto para que el usuario no lo pierda
-                setText(trimmed);
-            }
-        });
+
+        mutation.mutate(trimmed);
     };
 
-    // enter/Shift+enter testear
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -47,11 +60,12 @@ export const ReportChat: React.FC<ReportChatProps> = ({
     };
 
     const isOwnMessage = (comment: Comment) => comment.id_user === currentUserId;
+    const isPendingComment = (comment: Comment) => comment.id_comment < 0;
 
     return (
         <div className="flex flex-col h-full">
             <div className="flex-1 overflow-y-auto space-y-4 mb-4 pr-1 custom-scrollbar">
-                {comments.length === 0 ? (
+                {allComments.length === 0 ? (
                     <div className="flex flex-col items-center justify-center text-center py-10">
                         <span className="material-symbols-outlined text-3xl text-slate-300 mb-2">
                             chat_bubble_outline
@@ -61,8 +75,9 @@ export const ReportChat: React.FC<ReportChatProps> = ({
                         </p>
                     </div>
                 ) : (
-                    [...comments].reverse().map((comment) => {
+                    [...allComments].reverse().map((comment) => {
                         const own = isOwnMessage(comment);
+                        const pending = isPendingComment(comment);
                         return (
                             <div
                                 key={comment.id_comment}
@@ -70,12 +85,12 @@ export const ReportChat: React.FC<ReportChatProps> = ({
                             >
                                 <div
                                     className={`max-w-[80%] p-3 rounded-2xl text-sm ${own
-                                            ? "bg-primary text-on-primary rounded-br-md"
-                                            : "bg-slate-100 text-slate-800 rounded-bl-md"
+                                            ? `bg-primary text-on-primary rounded-br-md${pending ? " opacity-60" : ""}`
+                                            : `bg-slate-100 text-slate-800 rounded-bl-md${pending ? " opacity-60" : ""}`
                                         }`}
                                 >
                                     <p className={`text-[10px] font-semibold mb-1 ${own ? "text-on-primary/80" : "text-slate-500"}`}>
-                                        {comment.user?.name} · {comment.user?.role?.type_role}
+                                        {comment.user?.name || "Tú"} · {comment.user?.role?.type_role || "Ciudadano"}
                                     </p>
                                     <p className="whitespace-pre-wrap leading-relaxed">
                                         {comment.text}
