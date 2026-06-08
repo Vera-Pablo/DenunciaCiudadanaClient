@@ -1,11 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 import { useAuth } from "../features/auth";
 
 const Dashboard: React.FC = () => {
-  const { logout, user } = useAuth();
+  const { user, logout } = useAuth();
   const isAuthority = user?.role.type_role === "Autoridad";
+
+  if (isAuthority) return <Navigate to="/admin" replace />;
 
   return (
     <div className="flex flex-col gap-10">

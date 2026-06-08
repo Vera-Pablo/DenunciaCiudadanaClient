@@ -16,11 +16,15 @@ const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
   const [filters, setFilters] = useState({ id_status: 0, id_type: 0 });
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
-  const [chatReport, setChatReport] = useState<Report | null>(null);
+  const [chatReportId, setChatReportId] = useState<number | null>(null);
 
   const { data: reports, isLoading } = useAdminReports(filters);
   const { data: types } = useReportTypes();
   const { data: statuses } = useStatuses();
+
+  const chatReport = chatReportId
+    ? reports?.find((r) => r.id_report === chatReportId) ?? null
+    : null;
 
   const handleFilterChange = (key: string, value: string) => {
     setFilters((prev) => ({ ...prev, [key]: parseInt(value) }));
@@ -28,7 +32,7 @@ const AdminDashboard: React.FC = () => {
 
   const handleOpenChat = (report: Report) => {
     setSelectedReport(null);
-    setChatReport(report);
+    setChatReportId(report.id_report);
   };
 
   return (
@@ -119,7 +123,7 @@ const AdminDashboard: React.FC = () => {
         <ChatModal
           report={chatReport}
           currentUserId={user.id_user}
-          onClose={() => setChatReport(null)}
+          onClose={() => setChatReportId(null)}
         />
       )}
     </div>

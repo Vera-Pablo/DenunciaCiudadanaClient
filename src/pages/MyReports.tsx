@@ -11,11 +11,14 @@ const MyReports: React.FC = () => {
   const { user } = useAuth();
   const { data: reports, isLoading, isError } = useMyReports();
   const [selectedReport, setSelectedReport] = React.useState<Report | null>(null);
-  const [chatReport, setChatReport] = React.useState<Report | null>(null);
+  const [chatReportId, setChatReportId] = React.useState<number | null>(null);
+  const chatReport = chatReportId
+    ? reports?.find((r) => r.id_report === chatReportId) ?? null
+    : null;
 
   const handleOpenChat = (report: Report) => {
     setSelectedReport(null);
-    setChatReport(report);
+    setChatReportId(report.id_report);
   };
 
   if (isLoading) {
@@ -111,7 +114,7 @@ const MyReports: React.FC = () => {
         <ChatModal
           report={chatReport}
           currentUserId={user.id_user}
-          onClose={() => setChatReport(null)}
+          onClose={() => setChatReportId(null)}
         />
       )}
     </main>
