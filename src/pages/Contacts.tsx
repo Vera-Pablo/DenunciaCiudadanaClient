@@ -1,5 +1,5 @@
 import React from "react";
-import { MdContactPhone, MdPhone, MdOpenInNew } from "react-icons/md";
+import { MdContactPhone, MdPhone } from "react-icons/md";
 
 interface ContactEntry {
   name: string;
@@ -87,12 +87,9 @@ const Contacts: React.FC = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {contacts.map((c) => (
-          <a
+          <div
             key={c.name}
-            href={`tel:${c.number.replace(/[^0-9]/g, "")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`group block ${c.bgColor} border border-outline-variant/10 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300 no-underline`}
+            className={`group ${c.bgColor} border border-outline-variant/10 rounded-2xl p-5 shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300`}
           >
             <div className="flex items-start gap-4">
               <div
@@ -109,20 +106,17 @@ const Contacts: React.FC = () => {
                   {c.description}
                 </p>
                 <div className="flex items-center gap-2 mt-4">
-                  <div
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r ${c.gradient} shadow-sm group-hover:shadow-md transition-all`}
+                  <a
+                    href={`tel:${c.number.replace(/[^0-9]/g, "")}`}
+                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-to-r ${c.gradient} shadow-sm md:pointer-events-none md:select-none`}
                   >
                     <MdPhone size={16} />
                     {c.number}
-                  </div>
-                  <MdOpenInNew
-                    size={16}
-                    className="text-on-surface-variant/40 group-hover:text-on-surface-variant transition-colors"
-                  />
+                  </a>
                 </div>
               </div>
             </div>
-          </a>
+          </div>
         ))}
       </div>
     </div>
