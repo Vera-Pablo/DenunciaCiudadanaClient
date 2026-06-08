@@ -55,8 +55,6 @@ const DashboardView: React.FC = () => {
 
   const barData = typeEntries.map(([name, count]) => ({ name, count }));
 
-  const TYPE_BAR_COLORS_ARRAY = TYPE_BAR_COLORS;
-
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-3">
@@ -132,7 +130,7 @@ const DashboardView: React.FC = () => {
               enableGridY={false}
               borderRadius={12}
               borderWidth={0}
-              colors={({ index }) => TYPE_BAR_COLORS_ARRAY[index % TYPE_BAR_COLORS_ARRAY.length]}
+              colors={({ index }) => TYPE_BAR_COLORS[index % TYPE_BAR_COLORS.length]}
               label={(d) => d.value ?? ""}
               labelTextColor="#ffffff"
               labelSkipWidth={0}
