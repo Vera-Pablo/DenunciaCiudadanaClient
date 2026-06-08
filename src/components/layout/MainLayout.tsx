@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
+import { MdPerson } from "react-icons/md";
 import { useAuth } from "../../features/auth";
 import { FloatingChatButton } from "../../features/reports/components/FloatingChatButton";
 
@@ -25,6 +26,17 @@ const MainLayout: React.FC = () => {
             </Link>
           </div>
 
+          {user && (
+            <Link
+              to="/profile"
+              className="flex items-center gap-2 text-sm text-on-surface-variant hover:text-on-surface transition-colors group"
+            >
+              <span className="hidden md:inline font-medium">{user.name}</span>
+              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                <MdPerson size={20} />
+              </div>
+            </Link>
+          )}
         </div>
       </header>
 
