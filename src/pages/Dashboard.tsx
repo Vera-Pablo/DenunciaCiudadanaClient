@@ -7,7 +7,7 @@ const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
   const isAuthority = user?.role.type_role === "Autoridad";
 
-  if (isAuthority) return <Navigate to="/admin" replace />;
+  if (isAuthority) return <Navigate to="/admin/dashboard" replace />;
 
   return (
     <div className="flex flex-col gap-10">

@@ -14,6 +14,7 @@ import MyReports from "./pages/MyReports";
 import { Toaster } from "sonner";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
+import DashboardView from "./pages/DashboardView";
 
 const PlaceholderView: React.FC<{ title: string }> = ({ title }) => (
   <div className="flex flex-col items-center justify-center text-center py-20">
@@ -52,7 +53,7 @@ function App() {
           <Route element={<AuthorityLayout />}>
             <Route element={<ProtectedRoute requiredRole="Autoridad" />}>
               <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/admin/dashboard" element={<PlaceholderView title="Dashboard" />} />
+              <Route path="/admin/dashboard" element={<DashboardView />} />
               <Route path="/admin/contacts" element={<PlaceholderView title="Contactos" />} />
             </Route>
           </Route>
