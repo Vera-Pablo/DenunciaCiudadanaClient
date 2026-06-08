@@ -12,6 +12,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import MyReports from "./pages/MyReports";
 import { Toaster } from "sonner";
 import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -38,7 +39,7 @@ function App() {
               </Route>
 
               <Route path="reports" element={<Navigate to="/" replace />} />
-              <Route path="profile" element={<Navigate to="/" replace />} />
+              <Route path="profile" element={<Profile />} />
             </Route>
           </Route>
 
