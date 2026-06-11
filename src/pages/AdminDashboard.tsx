@@ -122,7 +122,6 @@ const AdminDashboard: React.FC = () => {
       {chatReport && user && (
         <ChatModal
           report={chatReport}
-          currentUserId={user.id_user}
           onClose={() => setChatReportId(null)}
         />
       )}

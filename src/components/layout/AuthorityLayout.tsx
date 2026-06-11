@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { MdMenu, MdClose } from "react-icons/md";
 import Sidebar from "./Sidebar";
+import { useAuth } from "../../features/auth";
+import { FloatingChatButton } from "../../features/reports/components/FloatingChatButton";
 
 const AuthorityLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen flex bg-surface antialiased font-body">
@@ -35,6 +38,8 @@ const AuthorityLayout: React.FC = () => {
           <Outlet />
         </main>
       </div>
+
+      {user && <FloatingChatButton />}
     </div>
   );
 };
