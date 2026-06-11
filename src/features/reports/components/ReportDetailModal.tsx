@@ -17,8 +17,6 @@ import {
 } from "react-icons/md";
 import { getStatusVariant, getStatusLabel } from "../utils/statusHelpers";
 
-
-
 const getSchema = (finalizadoId?: number) =>
   z
     .object({
@@ -200,10 +198,11 @@ const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
               />
 
               <div
-                className={`transition-all duration-500 transform ${isFinalizado
+                className={`transition-all duration-500 transform ${
+                  isFinalizado
                     ? "opacity-100 translate-y-0"
                     : "opacity-60 translate-y-1"
-                  }`}
+                }`}
               >
                 <div className="flex flex-col gap-2 w-full">
                   <label className="text-xs font-label text-on-surface-variant uppercase tracking-widest pl-2 font-medium">
@@ -213,8 +212,8 @@ const ReportDetailModal: React.FC<ReportDetailModalProps> = ({
                   <textarea
                     className={`
                       w-full bg-surface-container-low border-0 outline-none
-                      rounded-[1.5rem] px-5 py-4 text-on-surface font-body 
-                      transition-all placeholder:text-on-surface-variant/50 
+                      rounded-[1.5rem] px-5 py-4 text-on-surface font-body
+                      transition-all placeholder:text-on-surface-variant/50
                       shadow-sm focus:ring-2 focus:ring-primary/50 min-h-[140px] md:min-h-[160px] resize-none
                       ${errors.resolution_text ? "ring-2 ring-error/50" : ""}
                     `}

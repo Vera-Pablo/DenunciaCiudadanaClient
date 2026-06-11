@@ -7,13 +7,11 @@ import { MdClose, MdArrowBack } from "react-icons/md";
 
 interface ChatModalProps {
   report: Report;
-  currentUserId: number;
   onClose: () => void;
 }
 
 export const ChatModal: React.FC<ChatModalProps> = ({
   report,
-  currentUserId,
   onClose,
 }) => {
   return (
@@ -40,7 +38,10 @@ export const ChatModal: React.FC<ChatModalProps> = ({
               className="md:hidden p-1.5 rounded-full hover:bg-on-surface/8 transition-colors text-on-surface-variant hover:text-primary group"
               aria-label="Volver"
             >
-              <MdArrowBack size={22} className="group-hover:-translate-x-1 transition-transform" />
+              <MdArrowBack
+                size={22}
+                className="group-hover:-translate-x-1 transition-transform"
+              />
             </button>
 
             <div>
@@ -72,7 +73,6 @@ export const ChatModal: React.FC<ChatModalProps> = ({
           <ReportChat
             comments={report.comments || []}
             reportId={report.id_report}
-            currentUserId={currentUserId}
           />
         </div>
       </div>

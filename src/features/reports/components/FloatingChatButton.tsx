@@ -19,7 +19,7 @@ export const FloatingChatButton: React.FC = () => {
   const reports = isAuthority ? adminReports : citizenReports;
 
   const chatReport = chatReportId
-    ? reports?.find((r) => r.id_report === chatReportId) ?? null
+    ? (reports?.find((r) => r.id_report === chatReportId) ?? null)
     : null;
 
   useEffect(() => {
@@ -92,7 +92,6 @@ export const FloatingChatButton: React.FC = () => {
       {chatReport && (
         <ChatModal
           report={chatReport}
-          currentUserId={user.id_user}
           onClose={() => setChatReportId(null)}
         />
       )}
